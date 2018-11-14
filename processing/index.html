@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Processing Sketch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="processing.js"></script>
+</head>
+<body>
+    <a target="_blank" href="http://www.berkleyhoran.me"><i class="fas fa-arrow-left" ></i><a>
+    <div class="proc">
+    
+    <script type="application/processing"> 
+        int cols, rows;
+        int gridw = 500;
+        int gridh = 500;
+        int scl = 10;
+        float [][] terrain;
+
+        float flying = 0;
+
+        void setup(){
+        size(1000, 1000, P3D);
+        cols = gridw/ scl;
+        rows = gridh/ scl;
+        terrain = new float[cols][rows];
+        camera(70.0, 35.0, 300, 50.0, 50.0, 0.0, 
+            0.0, 1.0, 0.0);
+        
+        }
+
+        void draw(){
+        flying -= .05;
+        float yoff = flying;
+        for(int s = 0; s < rows; s++){
+            float xoff = 0.0;
+            for(int k = 0; k < cols; k++){
+            terrain[k][s] = map(noise(xoff, yoff), 0, 1, -200, 200);
+            xoff += 0.2;
+            }
+            yoff += 0.2;
+        }
+        rotateX(PI/10);
+        translate(200, 0, -500);
+        background(255, 204, 0);
+        for(int s = 0; s < rows; s++){
+            for(int k = 0; k < cols; k++){
+            line(k*scl, s*scl, terrain[k][s], k*scl + scl, s*scl + scl, terrain[k][s]);
+            line(k*scl + scl/2, s*scl + scl/2, terrain[k][s] + scl/2, k*scl + scl + scl/2, s*scl + scl + scl/2, terrain[k][s]+ scl/2);
+            
+            }
+        
+        }
+
+        }
+
+    </script>
+    <canvas width="1000" height="1000"></canvas>
+    </div>
+</body>
+<style>
+body{
+    background-color:rgb(255, 204, 0)
+}
+.proc{
+    display:flex;
+    justify-content:center;
+}
+i{
+    font-size:60px;
+    color:black;
+}
+</stlye>
+</html>
